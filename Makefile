@@ -17,11 +17,12 @@ NAME = libftprintf.a
 SRC_DIR	= src/
 
 # ----  SOURCE FILES  -------------------------------------------------------- #
-SRC_FILES = 	ft_printf		ft_hexa		ft_charstr	       \
-				ft_number		ft_unsigned
+SRC_FILES = 	ft_printf		ft_hexa_s		ft_charstr	       \
+				ft_number		ft_unsigned		ft_hexa_x			\
+				utils
 
-SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
-OBJ = $(addprefix $(SRC_DIR), $(addsuffix .o, $(SRC_FILES)))
+SRC = $(addsuffix .c, $(SRC_FILES))
+OBJ = $(addsuffix .o, $(SRC_FILES))
 
 # ----  FLAGS  --------------------------------------------------------------- #
 CC = gcc
@@ -32,8 +33,7 @@ LDFLAGS =
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $@ $^ $(LDFLAGS)
-	ranlib $@
+	ar rcs $@ $^ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_charstr.c                                        :+:      :+:    :+:   */
+/*   ft_hexa_s.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atrilles <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,39 +12,51 @@
 
 #include "libftprintf.h"
 
-int     ft_strlen(char *s)
+int len_int_to_hexa_s(uintptr_t u)
 {
     int i;
 
     i = 0;
-    while (s[i])
+    if (u > 0)
+    {
+        while (u / 16 > 0)
+        {
+            i++;
+            u /= 16;
+        }
         i++;
+    }
     return (i);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void   int_to_hexa_s(uintptr_t u, char format)
 {
-    if (s == 0)
+    if (u > 0)
     {
-        write(fd, "NULL", 4);
-        return;
+        int_to_hexa_s(u / 16, format);
+        if (u % 16 < 10)
+            len_ft_putchar_fd(u % 16 + '0', 1);
+        else 
+        {
+            if (format == 'x')
+                len_ft_putchar_fd(u % 16 - 10 + 'a', 1);
+            else
+                len_ft_putchar_fd(u % 16 - 10 + 'A', 1);
+        }
     }
-    write(fd, s, ft_strlen(s));
 }
 
-int len_ft_putchar_fd(char c, int fd)
+int   ft_hexa_s(void *s, char format)
 {
-    write(fd, &c, 1);
-    return (1);
-}
-
-int ft_s(char *s, int fd)
-{
-    if (s == 0)
+    if (((uintptr_t)s) == 0)
     {
-        write(fd, "(null)", 6);
-        return (6);
+        write(1, "0", 1);
+        return (1);
     }
-    write(fd, s, ft_strlen(s));
-    return (ft_strlen(s));
+    else
+    {
+        ft_putstr_fd("0x", 1);
+        int_to_hexa_s((uintptr_t)s, format);
+        return(len_int_to_hexa_s((uintptr_t)s) + 2);
+    }    
 }

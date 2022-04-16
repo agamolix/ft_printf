@@ -26,16 +26,19 @@ void	ft_putnbrlonguint_fd(long int n, int fd)
     write(fd, &c, 1);
 }
 
-int ft_unsigned(long int u)
+int ft_unsigned(unsigned int u)
 {
-    if (u < 0)
-    {
-        ft_putnbrlonguint_fd(4294967296 + u, 1);   
-         return(len_nb(4294967296 + u));
-    }
-    else 
-    {
-        ft_putnbrlonguint_fd(u, 1);
-        return (len_nb(u));
-    }
+    char    *res;
+    int     len;
+    long int     nb;
+
+    nb = (long int)u;
+    if (nb < 0)
+        res = ft_utoa(4294967296 + nb);
+    else
+        res = ft_utoa(nb);
+    ft_putstr_fd(res, 1);
+    len = ft_strlen(res);
+    free(res);
+    return (len);
 }

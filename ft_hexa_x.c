@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_number.c                                        :+:      :+:    :+:   */
+/*   ft_hexa_x.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atrilles <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,59 +12,47 @@
 
 #include "libftprintf.h"
 
-void	ft_putnbr_fd(int n, int fd)
+int len_int_to_hexa_x (unsigned int u)
 {
-    char c;
+    int i;
 
-    if (n == -2147483648)
+    i = 0;
+    if (u > 0)
     {
-        ft_putnbr_fd(n / 10, fd);
-        write(fd, "8", 1);
+        while (u / 16 > 0)
+        {
+            i++;
+            u /= 16;
+        }
+        i++;
     }
-    else if (n < 0)
-    {
-        n *= -1;
-        write(fd, "-", 1);
-    }
-    if (n / 10 > 0)
-    {
-        ft_putnbr_fd(n / 10, fd);
-        c = n % 10 + '0';
-    }
-    else
-        c = n + '0';
-    write(fd, &c, 1);
+    return (i);
 }
 
-int len_nb(long int n)
+void   int_to_hexa_x(unsigned int u, char format)
 {
-    int res;
-
-    res = 0;
-    if (n == -2147483648)
-        return (11);
-    else if (n < 0)
+    if (u > 0)
     {
-        res = 1;
-        n = -n;
+        int_to_hexa_x(u / 16, format);
+        if (u % 16 < 10)
+            len_ft_putchar_fd(u % 16 + '0', 1);
+        else 
+        {
+            if (format == 'x')
+                len_ft_putchar_fd(u % 16 - 10 + 'a', 1);
+            else
+                len_ft_putchar_fd(u % 16 - 10 + 'A', 1);
+        }
     }
-    while (n / 10 > 0)
-    {
-        res += 1;
-        n /= 10;
-    }
-    res++;
-    return (res);
 }
 
-int ft_d (int i)
+int ft_hexa_x(unsigned int i, char format)
 {
-    char    *res;
-    int     len;
-
-    res = ft_itoa(i);
-    ft_putstr_fd(res, 1);
-    len = ft_strlen(res);
-    free(res);
-    return (len);
+    if (i == 0)
+    {
+        write(1, "0", 1);
+        return (1);
+    }
+    int_to_hexa_x(i, format);
+    return(len_int_to_hexa_x(i));
 }

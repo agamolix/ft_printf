@@ -22,17 +22,17 @@ int ft_print_s(va_list list, char format)
     else if (format == 'c')
         len = len_ft_putchar_fd(va_arg(list, int), 1);
     else if (format == 's')
-        len = ft_s(va_arg(list, char *));
+        len = ft_s(va_arg(list, char *), 1);
     else if (format == 'p')
         len = ft_hexa_s(va_arg(list, void *), 'x');
     else if (format == 'd' || format == 'i')
         len = ft_d(va_arg(list, int));
     else if (format == 'u')
-        len = ft_unsigned(va_arg(list, long int));
+        len = ft_unsigned(va_arg(list, unsigned int));
     else if (format == 'x')
-        len = ft_hexa_x(va_arg(list, int), 'x');
+        len = ft_hexa_x(va_arg(list, unsigned int), 'x');
     else if (format == 'X')
-        len = ft_hexa_x(va_arg(list, int), 'X');
+        len = ft_hexa_x(va_arg(list, unsigned int), 'X');
     return len;
 }
 
